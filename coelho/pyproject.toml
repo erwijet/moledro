@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "coelho"
+version = "0.1.0"
+description = ""
+authors = ["Tyler Holewinski <tyler.holewinski@bryx.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+beautifulsoup4 = "^4.12.2"
+fastapi = "^0.95.2"
+uvicorn = {extras = ["standard"], version = "^0.22.0"}
+requests = "^2.30.0"
+supabase = "^1.0.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
