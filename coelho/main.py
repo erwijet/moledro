@@ -1,16 +1,20 @@
 import os
 import requests
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
 from operator import itemgetter
 from fastapi import FastAPI
-from supabase import create_client, Client
 from bs4 import BeautifulSoup
 
 app = FastAPI()
 
-url: str = os.environ.get("SUPABASE_URL")
-key: str = os.environ.get("SUPABASE_KEY")
+print(os.environ.get("FIREBASE_CRED"))
 
-supabase: Client = create_client(url, key)
+cred = credentials.Certificate(os.environ.get("FIREBASE_CRED"))
+firebaseApp = firebase_admin.initialize_app(cred)
+
+db = firestore.client()
 
 
 @app.get("/")
@@ -21,16 +25,10 @@ async def index():
 @app.get("/search/isbn")
 async def search(q: str):
     # first, check to see if this query result already exists
+    doc = db.collection("isbn_query_cache").document(q).get()
 
-    try:
-        [title, author, pub_date, binding, img], *_ = map(
-            itemgetter("title", "author", "pub_date", "binding", "img"),
-            supabase.table("isbn_queries")
-            .select("*")
-            .eq("isbn_query", q)
-            .execute()
-            .data,
-        )
+    if doc.exists:
+        title, author, pub_date, binding, img = itemgetter("title", "author", "pub_date", "binding", "img")(doc.to_dict())
 
         return {
             "ok": True,
@@ -43,43 +41,42 @@ async def search(q: str):
                 "img": img,
             },
         }
-
-    except ValueError:
-        pass
-
+    
     try:
         raw_html = requests.get(
             f"https://www.addall.com/New/NewSearch.cgi?query={q}&type=ISBN"
         ).text
         soup = BeautifulSoup(raw_html, "html.parser")
-
+    
         title = soup.find("div", {"class": "ntitle"}).text
         author = soup.find("div", {"class": "nauthor"}).text.split("by")[1].strip()
-
+    
         [pub_date, binding] = [
             " ".join(raw.split(":")[1:]).strip()
             for raw in soup.find("div", {"class": "ndesc"}).text.split("\n")[3:5]
         ]
 
-        img = soup.find("div", {"class": "nimg"}).find("img")["src"]
+        img = None
 
-        # if the image was sourced from amazon, attempt to upscale it
-        if img.startswith("https://m.media-amazon.com/") and "160" in img:
-            img = img.replace("160", "512")
-
+        if soup.find("div", { "class": "nimg" }):
+            img = soup.find("div", {"class": "nimg"}).find("img")["src"]
+    
+            # if the image was sourced from amazon, attempt to upscale it
+            if img.startswith("https://m.media-amazon.com/") and "160" in img:
+                img = img.replace("160", "512")
+    
         # write result to isbn_queries table
 
-        supabase.table("isbn_queries").insert(
-            {
-                "isbn_query": q,
-                "title": title,
-                "author": author,
-                "pub_date": pub_date,
-                "binding": binding,
-                "img": img,
-            }
-        ).execute()
+        doc_ref = db.collection("isbn_query_cache").document(q)
 
+        doc_ref.set({
+            "title": title,
+            "author": author,
+            "pub_date": pub_date,
+            "binding": binding,
+            "img": img,
+        })
+    
         return {
             "ok": True,
             "cached": False,
@@ -91,7 +88,7 @@ async def search(q: str):
                 "img": img,
             },
         }
-
+    
     except Exception as err:
         return {
             "ok": False,
