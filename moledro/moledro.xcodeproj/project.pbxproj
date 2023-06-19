@@ -1,0 +1,523 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2F069EE72A3F6C6F00B13DDE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2F069EE62A3F6C6F00B13DDE /* GoogleService-Info.plist */; };
+		2F069EED2A3F701D00B13DDE /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 2F069EEC2A3F701D00B13DDE /* FirebaseAnalytics */; };
+		2F069EEF2A3F701D00B13DDE /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 2F069EEE2A3F701D00B13DDE /* FirebaseAuth */; };
+		2F069EF12A3F701D00B13DDE /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 2F069EF02A3F701D00B13DDE /* FirebaseFirestore */; };
+		2F069EF32A3F701D00B13DDE /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 2F069EF22A3F701D00B13DDE /* FirebaseStorage */; };
+		2F069EF62A3F71A800B13DDE /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 2F069EF52A3F71A800B13DDE /* GoogleSignIn */; };
+		2F069EF82A3F720500B13DDE /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F069EF72A3F720500B13DDE /* AuthViewModel.swift */; };
+		2F069EFA2A3F753600B13DDE /* GoogleSignInButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F069EF92A3F753600B13DDE /* GoogleSignInButton.swift */; };
+		2F069EFC2A3F7DAA00B13DDE /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F069EFB2A3F7DAA00B13DDE /* LibraryView.swift */; };
+		2F069EFE2A3FAD9900B13DDE /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F069EFD2A3FAD9900B13DDE /* Library.swift */; };
+		2F069F002A3FAEB800B13DDE /* LibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F069EFF2A3FAEB800B13DDE /* LibraryViewModel.swift */; };
+		2F069F022A3FCD9A00B13DDE /* LibraryBuilderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F069F012A3FCD9A00B13DDE /* LibraryBuilderView.swift */; };
+		2F069F042A3FD17B00B13DDE /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F069F032A3FD17B00B13DDE /* ImagePicker.swift */; };
+		2FB825F42A365EAA00D872D2 /* moledroApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB825F32A365EAA00D872D2 /* moledroApp.swift */; };
+		2FB825F62A365EAA00D872D2 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB825F52A365EAA00D872D2 /* MainView.swift */; };
+		2FB825F82A365EAB00D872D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2FB825F72A365EAB00D872D2 /* Assets.xcassets */; };
+		2FB825FB2A365EAB00D872D2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2FB825FA2A365EAB00D872D2 /* Preview Assets.xcassets */; };
+		2FB826052A3668CF00D872D2 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 2FB826042A3668CF00D872D2 /* CodeScanner */; };
+		2FB826092A36754B00D872D2 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB826082A36754B00D872D2 /* SettingsView.swift */; };
+		2FB8260B2A36772B00D872D2 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB8260A2A36772B00D872D2 /* LoginView.swift */; };
+		2FD66AB52A3FEB3300638B03 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD66AB42A3FEB3300638B03 /* ImageLoader.swift */; };
+		2FD66AB82A3FEB6700638B03 /* FirebaseStorageImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD66AB72A3FEB6700638B03 /* FirebaseStorageImageLoader.swift */; };
+		2FD66ABC2A400BF100638B03 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD66ABB2A400BF100638B03 /* Book.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		2F069EE52A3E2FA800B13DDE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		2F069EE62A3F6C6F00B13DDE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		2F069EF72A3F720500B13DDE /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		2F069EF92A3F753600B13DDE /* GoogleSignInButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignInButton.swift; sourceTree = "<group>"; };
+		2F069EFB2A3F7DAA00B13DDE /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
+		2F069EFD2A3FAD9900B13DDE /* Library.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Library.swift; sourceTree = "<group>"; };
+		2F069EFF2A3FAEB800B13DDE /* LibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewModel.swift; sourceTree = "<group>"; };
+		2F069F012A3FCD9A00B13DDE /* LibraryBuilderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryBuilderView.swift; sourceTree = "<group>"; };
+		2F069F032A3FD17B00B13DDE /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		2FB825F02A365EAA00D872D2 /* moledro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = moledro.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2FB825F32A365EAA00D872D2 /* moledroApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = moledroApp.swift; sourceTree = "<group>"; };
+		2FB825F52A365EAA00D872D2 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		2FB825F72A365EAB00D872D2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2FB825FA2A365EAB00D872D2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		2FB826082A36754B00D872D2 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		2FB8260A2A36772B00D872D2 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		2FD66AB42A3FEB3300638B03 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
+		2FD66AB72A3FEB6700638B03 /* FirebaseStorageImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageImageLoader.swift; sourceTree = "<group>"; };
+		2FD66ABB2A400BF100638B03 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2FB825ED2A365EAA00D872D2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2F069EED2A3F701D00B13DDE /* FirebaseAnalytics in Frameworks */,
+				2F069EF12A3F701D00B13DDE /* FirebaseFirestore in Frameworks */,
+				2F069EEF2A3F701D00B13DDE /* FirebaseAuth in Frameworks */,
+				2F069EF32A3F701D00B13DDE /* FirebaseStorage in Frameworks */,
+				2FB826052A3668CF00D872D2 /* CodeScanner in Frameworks */,
+				2F069EF62A3F71A800B13DDE /* GoogleSignIn in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2F069F052A3FDC0400B13DDE /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				2F069EFD2A3FAD9900B13DDE /* Library.swift */,
+				2F069EFB2A3F7DAA00B13DDE /* LibraryView.swift */,
+				2F069EFF2A3FAEB800B13DDE /* LibraryViewModel.swift */,
+				2F069F012A3FCD9A00B13DDE /* LibraryBuilderView.swift */,
+			);
+			path = Library;
+			sourceTree = "<group>";
+		};
+		2FB825E72A365EAA00D872D2 = {
+			isa = PBXGroup;
+			children = (
+				2FB825F22A365EAA00D872D2 /* moledro */,
+				2FB825F12A365EAA00D872D2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2FB825F12A365EAA00D872D2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2FB825F02A365EAA00D872D2 /* moledro.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2FB825F22A365EAA00D872D2 /* moledro */ = {
+			isa = PBXGroup;
+			children = (
+				2FD66ABA2A400BE300638B03 /* Book */,
+				2F069EE62A3F6C6F00B13DDE /* GoogleService-Info.plist */,
+				2F069EE52A3E2FA800B13DDE /* Info.plist */,
+				2FB825F32A365EAA00D872D2 /* moledroApp.swift */,
+				2FB825F52A365EAA00D872D2 /* MainView.swift */,
+				2F069F032A3FD17B00B13DDE /* ImagePicker.swift */,
+				2F069F052A3FDC0400B13DDE /* Library */,
+				2FB8260A2A36772B00D872D2 /* LoginView.swift */,
+				2FD66AB62A3FEB5600638B03 /* Firebase */,
+				2FB826082A36754B00D872D2 /* SettingsView.swift */,
+				2FD66AB42A3FEB3300638B03 /* ImageLoader.swift */,
+				2FB825F72A365EAB00D872D2 /* Assets.xcassets */,
+				2FB825F92A365EAB00D872D2 /* Preview Content */,
+				2F069EF72A3F720500B13DDE /* AuthViewModel.swift */,
+				2F069EF92A3F753600B13DDE /* GoogleSignInButton.swift */,
+			);
+			path = moledro;
+			sourceTree = "<group>";
+		};
+		2FB825F92A365EAB00D872D2 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				2FB825FA2A365EAB00D872D2 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		2FD66AB62A3FEB5600638B03 /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				2FD66AB72A3FEB6700638B03 /* FirebaseStorageImageLoader.swift */,
+			);
+			path = Firebase;
+			sourceTree = "<group>";
+		};
+		2FD66ABA2A400BE300638B03 /* Book */ = {
+			isa = PBXGroup;
+			children = (
+				2FD66ABB2A400BF100638B03 /* Book.swift */,
+			);
+			path = Book;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2FB825EF2A365EAA00D872D2 /* moledro */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2FB825FE2A365EAB00D872D2 /* Build configuration list for PBXNativeTarget "moledro" */;
+			buildPhases = (
+				2FB825EC2A365EAA00D872D2 /* Sources */,
+				2FB825ED2A365EAA00D872D2 /* Frameworks */,
+				2FB825EE2A365EAA00D872D2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = moledro;
+			packageProductDependencies = (
+				2FB826042A3668CF00D872D2 /* CodeScanner */,
+				2F069EEC2A3F701D00B13DDE /* FirebaseAnalytics */,
+				2F069EEE2A3F701D00B13DDE /* FirebaseAuth */,
+				2F069EF02A3F701D00B13DDE /* FirebaseFirestore */,
+				2F069EF22A3F701D00B13DDE /* FirebaseStorage */,
+				2F069EF52A3F71A800B13DDE /* GoogleSignIn */,
+			);
+			productName = moledro;
+			productReference = 2FB825F02A365EAA00D872D2 /* moledro.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2FB825E82A365EAA00D872D2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1420;
+				LastUpgradeCheck = 1420;
+				TargetAttributes = {
+					2FB825EF2A365EAA00D872D2 = {
+						CreatedOnToolsVersion = 14.2;
+					};
+				};
+			};
+			buildConfigurationList = 2FB825EB2A365EAA00D872D2 /* Build configuration list for PBXProject "moledro" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 2FB825E72A365EAA00D872D2;
+			packageReferences = (
+				2FB826032A3668CF00D872D2 /* XCRemoteSwiftPackageReference "CodeScanner" */,
+				2F069EEB2A3F701D00B13DDE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				2F069EF42A3F71A800B13DDE /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+			);
+			productRefGroup = 2FB825F12A365EAA00D872D2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2FB825EF2A365EAA00D872D2 /* moledro */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2FB825EE2A365EAA00D872D2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2FB825FB2A365EAB00D872D2 /* Preview Assets.xcassets in Resources */,
+				2FB825F82A365EAB00D872D2 /* Assets.xcassets in Resources */,
+				2F069EE72A3F6C6F00B13DDE /* GoogleService-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2FB825EC2A365EAA00D872D2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2F069F022A3FCD9A00B13DDE /* LibraryBuilderView.swift in Sources */,
+				2FD66AB82A3FEB6700638B03 /* FirebaseStorageImageLoader.swift in Sources */,
+				2FD66ABC2A400BF100638B03 /* Book.swift in Sources */,
+				2F069EFC2A3F7DAA00B13DDE /* LibraryView.swift in Sources */,
+				2FD66AB52A3FEB3300638B03 /* ImageLoader.swift in Sources */,
+				2FB825F62A365EAA00D872D2 /* MainView.swift in Sources */,
+				2F069EF82A3F720500B13DDE /* AuthViewModel.swift in Sources */,
+				2FB826092A36754B00D872D2 /* SettingsView.swift in Sources */,
+				2FB8260B2A36772B00D872D2 /* LoginView.swift in Sources */,
+				2F069EFE2A3FAD9900B13DDE /* Library.swift in Sources */,
+				2F069F042A3FD17B00B13DDE /* ImagePicker.swift in Sources */,
+				2FB825F42A365EAA00D872D2 /* moledroApp.swift in Sources */,
+				2F069F002A3FAEB800B13DDE /* LibraryViewModel.swift in Sources */,
+				2F069EFA2A3F753600B13DDE /* GoogleSignInButton.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		2FB825FC2A365EAB00D872D2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Camera used to allow users to scan ISBN numbers on the back of books they wish to search";
+				INFOPLIST_KEY_NSPrincipalClass = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				NEW_SETTING = "";
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		2FB825FD2A365EAB00D872D2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSPrincipalClass = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				NEW_SETTING = "";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2FB825FF2A365EAB00D872D2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"moledro/Preview Content\"";
+				DEVELOPMENT_TEAM = UAU33DL52X;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = moledro/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Moledro;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Camera used to allow users to scan ISBN numbers on the back of books they wish to search";
+				INFOPLIST_KEY_NSPrincipalClass = "";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.holewinski.moledro;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2FB826002A365EAB00D872D2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"moledro/Preview Content\"";
+				DEVELOPMENT_TEAM = UAU33DL52X;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = moledro/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Moledro;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Camera used to allow users to scan ISBN numbers on the back of books they wish to search";
+				INFOPLIST_KEY_NSPrincipalClass = "";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.holewinski.moledro;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2FB825EB2A365EAA00D872D2 /* Build configuration list for PBXProject "moledro" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2FB825FC2A365EAB00D872D2 /* Debug */,
+				2FB825FD2A365EAB00D872D2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2FB825FE2A365EAB00D872D2 /* Build configuration list for PBXNativeTarget "moledro" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2FB825FF2A365EAB00D872D2 /* Debug */,
+				2FB826002A365EAB00D872D2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2F069EEB2A3F701D00B13DDE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
+		2F069EF42A3F71A800B13DDE /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
+		2FB826032A3668CF00D872D2 /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/twostraws/CodeScanner";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2F069EEC2A3F701D00B13DDE /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2F069EEB2A3F701D00B13DDE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		2F069EEE2A3F701D00B13DDE /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2F069EEB2A3F701D00B13DDE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		2F069EF02A3F701D00B13DDE /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2F069EEB2A3F701D00B13DDE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		2F069EF22A3F701D00B13DDE /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2F069EEB2A3F701D00B13DDE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+		2F069EF52A3F71A800B13DDE /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2F069EF42A3F71A800B13DDE /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		2FB826042A3668CF00D872D2 /* CodeScanner */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2FB826032A3668CF00D872D2 /* XCRemoteSwiftPackageReference "CodeScanner" */;
+			productName = CodeScanner;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 2FB825E82A365EAA00D872D2 /* Project object */;
+}
