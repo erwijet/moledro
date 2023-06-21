@@ -39,6 +39,7 @@ async def search(q: str):
                 "pub_date": pub_date,
                 "binding": binding,
                 "img": img,
+                "isbn": q
             },
         }
     
@@ -86,6 +87,7 @@ async def search(q: str):
                 "pub_date": pub_date,
                 "binding": binding,
                 "img": img,
+                "isbn": q
             },
         }
     
