@@ -1,12 +1,12 @@
 FROM docker.io/python:3.11-bullseye
 WORKDIR /coelho
 
+COPY ./ /coelho
 
 RUN pip3 install poetry
 RUN poetry config virtualenvs.create false
 RUN poetry install
 
-COPY ./ /coelho
 
 ENV FIREBASE_CRED firebase.json
 
