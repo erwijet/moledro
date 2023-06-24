@@ -22,9 +22,14 @@ struct MainView: View {
                         LibraryView()
                     }.name("Libraries")
                     
-                    TabItemView(systemName: "gearshape", tag: 1, activeIdx: currentTabIndex) {
+                    TabItemView(systemName: "barcode.viewfinder", tag: 1, activeIdx: currentTabIndex) {
+                        ScannerView()
+                    }.name("Scan")
+                    
+                    TabItemView(systemName: "gearshape", tag: 2, activeIdx: currentTabIndex) {
                         SettingsView()
                     }.name("Settings")
+                    
                 }
             }
         } else {
