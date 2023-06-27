@@ -22,7 +22,7 @@ class LibraryViewModel: ObservableObject {
         ref.getDocument { [weak self] snapshot, error in
             guard let snapshot = snapshot, snapshot.exists, let data = snapshot.data() else { return }
             
-            let id = snapshot["id"] as? String ?? ""
+            let id = snapshot.documentID
             let name = snapshot["name"] as? String ?? ""
             let ownerUID = snapshot["ownerUID"] as? String ?? ""
             
