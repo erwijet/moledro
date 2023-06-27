@@ -12,7 +12,7 @@ import FirebaseStorage
 import GoogleSignIn
 
 struct LibraryView: View {
-    @ObservedObject private var viewModel = LibraryViewModel()
+    @ObservedObject private var viewModel = UserLibrariesViewModel()
     @State private var isPresentingBuilderSheet = false
     
     var body: some View {
@@ -20,11 +20,11 @@ struct LibraryView: View {
             ScrollView {
                 LazyVGrid(columns: createGridColumns(), spacing: 16) {
                     ForEach(viewModel.libraries) { library in
-                        NavigationLink(destination: LibraryDetailView(library: library)) {
+                        NavigationLink(destination: LibraryBooksView(libraryId: library.id)) {
                             FirebaseStoreImageLoader(reference: Storage.storage().reference().child("\(library.id).jpg"), fallback: {
-                                CardView(title: library.name, subtitle: "0 Books", image: Image(systemName: "books.vertical.circle"))
+                                CardView(title: library.name, subtitle: "\(library.books.count) Books", image: Image(systemName: "books.vertical.circle"))
                             }) { uiImage in
-                                CardView(title: library.name, subtitle: "0 Books", image: Image(uiImage: uiImage))
+                                CardView(title: library.name, subtitle: "\(library.books.count) Books", image: Image(uiImage: uiImage))
                             }
                         }
                     }
@@ -83,50 +83,6 @@ struct LibraryGridItem: View {
         .background {
             RoundedRectangle(cornerRadius: 20, style: .continuous)
                 .fill(.gray.opacity(0.5))
-        }
-    }
-}
-
-struct LibraryDetailView: View {
-    let library: Library
-    
-    @Environment(\.presentationMode) var presentationMode
-    @State var isAlertPresenting = false
-    
-    var body: some View {
-        Form {
-            Section {
-                LabeledContent("Name", value: library.name)
-                LabeledContent( "owner", value: library.ownerUID)
-            }
-            
-            Section {
-                Button("Delete Library") {
-                    isAlertPresenting = true
-                }
-                .tint(.red)
-            }
-        }.confirmationDialog("Are you sure?", isPresented: $isAlertPresenting) {
-            Button("Cancel", role: .cancel) {
-                isAlertPresenting = false
-            }
-            Button("Delete", role: .destructive) {
-                handleDelete()
-            }
-        } message: {
-            Text("Are you sure you want to delete '\(library.name)'")
-        }
-    }
-    
-    func handleDelete() {
-        let db = Firestore.firestore()
-        
-        db.document("libraries/\(library.id)").delete { err in
-            print("libraries/\(library.id)")
-            if let err = err {
-                print(err.localizedDescription)
-            }
-            presentationMode.wrappedValue.dismiss()
         }
     }
 }

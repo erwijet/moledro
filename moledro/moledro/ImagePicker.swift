@@ -8,14 +8,17 @@
 import SwiftUI
 
 struct ImagePicker: UIViewControllerRepresentable {
+    let sourceType: UIImagePickerController.SourceType
+    
     @Binding var image: UIImage?
-    @Binding var isPresented: Bool
+    
+    @Environment(\.dismiss) private var dismiss
     
     func makeUIViewController(context: Context) -> UIImagePickerController {
         let imagePickerController = UIImagePickerController()
         
         imagePickerController.delegate = context.coordinator
-        imagePickerController.sourceType = .camera
+        imagePickerController.sourceType = sourceType
         
         return imagePickerController
     }
@@ -38,11 +41,15 @@ struct ImagePicker: UIViewControllerRepresentable {
                 parent.image = img
             }
             
-            parent.isPresented = false
+            parent.dismiss()
+            
+//            parent.isPresented = false
         }
         
         func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-            parent.isPresented = false
+            parent.dismiss()
+            
+//            parent.isPresented = false
         }
     }
 }

@@ -15,43 +15,72 @@ struct LibraryBuilderView: View {
     
     @State private var libraryName = ""
     @State private var image: UIImage?
-    @State private var isImagePickerPresenting = false
+    
+    @State private var isCameraPresenting = false
+    @State private var isPhotoLibraryPresenting = false
+    
+    @State private var isLoading = false
     
     private let storage = Storage.storage().reference()
     private let db = Firestore.firestore()
     
     var body: some View {
         NavigationView {
-            Form {
-                Section(header: Text("Library Details")) {
-                    TextField("Library Name", text: $libraryName)
-                }
-                
-                Section {
-                    Button("Take Picture") {
-                        isImagePickerPresenting = true
-                    }
-                    .sheet(isPresented: $isImagePickerPresenting) {
-                        ImagePicker(image: $image, isPresented: $isImagePickerPresenting)
+            ZStack {
+                Form {
+                    Section(header: Text("Library Details")) {
+                        TextField("Library Name", text: $libraryName)
                     }
                     
-                    if let image = image {
-                        Image(uiImage: image)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(height: 200)
+                    Section {
+                        Button("Open Camera") {
+                            isCameraPresenting = true
+                        }
+                        .sheet(isPresented: $isCameraPresenting) {
+                            ImagePicker(sourceType: .camera, image: $image)
+                        }
+                        
+                        Button("Choose Image") {
+                            isPhotoLibraryPresenting = true
+                        }
+                        .sheet(isPresented: $isPhotoLibraryPresenting) {
+                            ImagePicker(sourceType: .photoLibrary, image: $image)
+                        }
+                        
+                        if let image = image {
+                            Image(uiImage: image)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(height: 200)
+                        }
                     }
                 }
+                .navigationBarItems(
+                    leading: Button("Cancel") {
+                        presentationMode.wrappedValue.dismiss()
+                    },
+                    trailing: Button("Create") {
+                        handleCreate()
+                    }.disabled(libraryName.isEmpty || image == nil || isLoading)
+                )
+                .navigationTitle("Create Library")
+                
+                if isLoading {
+                    Color.black.opacity(0.4)
+                        .edgesIgnoringSafeArea(.all)
+                        .onTapGesture {} // Prevents tap events on the underlying content
+                    
+                    
+                    VStack {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle())
+                            .foregroundColor(.accentColor)
+                    }
+                    .frame(width: 40, height: 40)
+                    .background(.gray)
+                    .cornerRadius(10)
+                }
             }
-            .navigationBarItems(
-                leading: Button("Cancel") {
-                    presentationMode.wrappedValue.dismiss()
-                },
-                trailing: Button("Create") {
-                    handleCreate()
-                }.disabled(libraryName.isEmpty || image == nil)
-            )
-            .navigationTitle("Create Library")
         }
     }
     
@@ -60,11 +89,14 @@ struct LibraryBuilderView: View {
             return
         }
         
+        isLoading = true
+        
         let libraryRef = db.collection("libraries").addDocument(data: [
             "name": libraryName,
-            "ownerUID": uid
+            "ownerUID": uid,
+            "books": [Book]()
         ])
-        
+
         let imageName = "\(libraryRef.documentID).jpg"
         
         storage.child(imageName).putData(imageData, metadata: nil) { (_, error) in

@@ -8,7 +8,7 @@
 import SwiftUI
 import BarcodeScanner
 
-struct BarcodeScannerView: UIViewControllerRepresentable {
+struct IsbnScanAndQueryView: UIViewControllerRepresentable {
     typealias UIViewControllerType = BarcodeScannerViewController
     
     let didScan: (CoelhoResponse?) -> Void
@@ -79,7 +79,8 @@ struct BarcodeScannerView: UIViewControllerRepresentable {
         }
         
         func scanner(_ controller: BarcodeScanner.BarcodeScannerViewController, didReceiveError error: Error) {
-            //
+            controller.resetWithError(message: error.localizedDescription)
+            self.willDismiss()
         }
         
         func scannerDidDismiss(_ controller: BarcodeScanner.BarcodeScannerViewController) {
@@ -92,64 +93,21 @@ struct BarcodeScannerView: UIViewControllerRepresentable {
 struct ScannerView: View {
     @State private var isPresentingScanner = true
     @State private var isPresentingSheet = false
-    @State private var bookInfo: CoelhoResponse.BookInfo?
+    @State private var bookInfo: BookInfo?
     
     var body: some View {
+        if let book = bookInfo {
+            BookInfoDetailView(bookInfo: book)
+        }
+        
         Button("Open Scanner") {
             isPresentingSheet = true
-            isPresentingScanner = true
         }.sheet(isPresented: $isPresentingSheet, onDismiss: { bookInfo = nil }) {
-            
-            if isPresentingScanner {
-                BarcodeScannerView { coelhoResponse in
-                    bookInfo = coelhoResponse?.result
-                } willDismiss: {
-                    isPresentingScanner = false
-                }
-            }
-            
-            if let book = bookInfo {
-                BookScanResultCard(book: book)
+            IsbnScanAndQueryView { coelhoResponse in
+                bookInfo = coelhoResponse?.result
+            } willDismiss: {
+                isPresentingSheet = false
             }
         }
-    }
-}
-
-struct BookScanResultCard: View {
-    let book: CoelhoResponse.BookInfo
-    
-    var body: some View {
-        VStack {
-            Form {
-                if let imageURL = book.img, let url = URL(string: imageURL) {
-                    AsyncImage(url: url) { image in
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .cornerRadius(10)
-                    } placeholder: {
-                        Image(systemName: "photo")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .foregroundColor(.secondary)
-                    }
-                }
-                
-                Text(book.title)
-                    .font(.headline)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(2)
-                
-                Section() {
-                    LabeledContent("Author", value: book.author)
-                    LabeledContent("Pub Date", value: book.pub_date)
-                    LabeledContent("Binding", value: book.binding)
-                    LabeledContent("ISBN", value: book.isbn)
-                }
-                
-            } .scrollContentBackground(.hidden)
-            
-        }
-        .foregroundColor(.primary)
     }
 }

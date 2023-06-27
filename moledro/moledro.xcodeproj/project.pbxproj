@@ -17,13 +17,16 @@
 		2F069EFA2A3F753600B13DDE /* GoogleSignInButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F069EF92A3F753600B13DDE /* GoogleSignInButton.swift */; };
 		2F069EFC2A3F7DAA00B13DDE /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F069EFB2A3F7DAA00B13DDE /* LibraryView.swift */; };
 		2F069EFE2A3FAD9900B13DDE /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F069EFD2A3FAD9900B13DDE /* Library.swift */; };
-		2F069F002A3FAEB800B13DDE /* LibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F069EFF2A3FAEB800B13DDE /* LibraryViewModel.swift */; };
+		2F069F002A3FAEB800B13DDE /* UserLibrariesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F069EFF2A3FAEB800B13DDE /* UserLibrariesViewModel.swift */; };
 		2F069F022A3FCD9A00B13DDE /* LibraryBuilderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F069F012A3FCD9A00B13DDE /* LibraryBuilderView.swift */; };
 		2F069F042A3FD17B00B13DDE /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F069F032A3FD17B00B13DDE /* ImagePicker.swift */; };
+		2F5EEA5F2A480131007291AA /* LibraryBooksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5EEA5E2A480131007291AA /* LibraryBooksView.swift */; };
+		2F5EEA632A48AF07007291AA /* LibrarySettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5EEA622A48AF07007291AA /* LibrarySettingsView.swift */; };
+		2F5EEA652A4902A3007291AA /* LibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5EEA642A4902A3007291AA /* LibraryViewModel.swift */; };
+		2F8DD5562A4A3D420082F043 /* BookInfoDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8DD5552A4A3D420082F043 /* BookInfoDetailView.swift */; };
 		2FB825F42A365EAA00D872D2 /* moledroApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB825F32A365EAA00D872D2 /* moledroApp.swift */; };
 		2FB825F62A365EAA00D872D2 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB825F52A365EAA00D872D2 /* MainView.swift */; };
 		2FB825F82A365EAB00D872D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2FB825F72A365EAB00D872D2 /* Assets.xcassets */; };
-		2FB825FB2A365EAB00D872D2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2FB825FA2A365EAB00D872D2 /* Preview Assets.xcassets */; };
 		2FB826052A3668CF00D872D2 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 2FB826042A3668CF00D872D2 /* CodeScanner */; };
 		2FB826092A36754B00D872D2 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB826082A36754B00D872D2 /* SettingsView.swift */; };
 		2FB8260B2A36772B00D872D2 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB8260A2A36772B00D872D2 /* LoginView.swift */; };
@@ -40,14 +43,17 @@
 		2F069EF92A3F753600B13DDE /* GoogleSignInButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignInButton.swift; sourceTree = "<group>"; };
 		2F069EFB2A3F7DAA00B13DDE /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
 		2F069EFD2A3FAD9900B13DDE /* Library.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Library.swift; sourceTree = "<group>"; };
-		2F069EFF2A3FAEB800B13DDE /* LibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewModel.swift; sourceTree = "<group>"; };
+		2F069EFF2A3FAEB800B13DDE /* UserLibrariesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLibrariesViewModel.swift; sourceTree = "<group>"; };
 		2F069F012A3FCD9A00B13DDE /* LibraryBuilderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryBuilderView.swift; sourceTree = "<group>"; };
 		2F069F032A3FD17B00B13DDE /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		2F5EEA5E2A480131007291AA /* LibraryBooksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryBooksView.swift; sourceTree = "<group>"; };
+		2F5EEA622A48AF07007291AA /* LibrarySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibrarySettingsView.swift; sourceTree = "<group>"; };
+		2F5EEA642A4902A3007291AA /* LibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewModel.swift; sourceTree = "<group>"; };
+		2F8DD5552A4A3D420082F043 /* BookInfoDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookInfoDetailView.swift; sourceTree = "<group>"; };
 		2FB825F02A365EAA00D872D2 /* moledro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = moledro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FB825F32A365EAA00D872D2 /* moledroApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = moledroApp.swift; sourceTree = "<group>"; };
 		2FB825F52A365EAA00D872D2 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		2FB825F72A365EAB00D872D2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		2FB825FA2A365EAB00D872D2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2FB826082A36754B00D872D2 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		2FB8260A2A36772B00D872D2 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		2FD66AB72A3FEB6700638B03 /* FirebaseStorageImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageImageLoader.swift; sourceTree = "<group>"; };
@@ -78,8 +84,10 @@
 			children = (
 				2F069EFD2A3FAD9900B13DDE /* Library.swift */,
 				2F069EFB2A3F7DAA00B13DDE /* LibraryView.swift */,
-				2F069EFF2A3FAEB800B13DDE /* LibraryViewModel.swift */,
+				2F069EFF2A3FAEB800B13DDE /* UserLibrariesViewModel.swift */,
+				2F5EEA642A4902A3007291AA /* LibraryViewModel.swift */,
 				2F069F012A3FCD9A00B13DDE /* LibraryBuilderView.swift */,
+				2F5EEA622A48AF07007291AA /* LibrarySettingsView.swift */,
 			);
 			path = Library;
 			sourceTree = "<group>";
@@ -115,19 +123,10 @@
 				2FD66AB62A3FEB5600638B03 /* Firebase */,
 				2FB826082A36754B00D872D2 /* SettingsView.swift */,
 				2FB825F72A365EAB00D872D2 /* Assets.xcassets */,
-				2FB825F92A365EAB00D872D2 /* Preview Content */,
 				2F069EF72A3F720500B13DDE /* AuthViewModel.swift */,
 				2F069EF92A3F753600B13DDE /* GoogleSignInButton.swift */,
 			);
 			path = moledro;
-			sourceTree = "<group>";
-		};
-		2FB825F92A365EAB00D872D2 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				2FB825FA2A365EAB00D872D2 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 		2FD66AB62A3FEB5600638B03 /* Firebase */ = {
@@ -142,6 +141,8 @@
 			isa = PBXGroup;
 			children = (
 				2FD66ABB2A400BF100638B03 /* Book.swift */,
+				2F5EEA5E2A480131007291AA /* LibraryBooksView.swift */,
+				2F8DD5552A4A3D420082F043 /* BookInfoDetailView.swift */,
 			);
 			path = Book;
 			sourceTree = "<group>";
@@ -219,7 +220,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2FB825FB2A365EAB00D872D2 /* Preview Assets.xcassets in Resources */,
 				2FB825F82A365EAB00D872D2 /* Assets.xcassets in Resources */,
 				2F069EE72A3F6C6F00B13DDE /* GoogleService-Info.plist in Resources */,
 			);
@@ -237,15 +237,19 @@
 				2FD66ABC2A400BF100638B03 /* Book.swift in Sources */,
 				2F069EFC2A3F7DAA00B13DDE /* LibraryView.swift in Sources */,
 				2FB825F62A365EAA00D872D2 /* MainView.swift in Sources */,
+				2F5EEA632A48AF07007291AA /* LibrarySettingsView.swift in Sources */,
 				2F069EF82A3F720500B13DDE /* AuthViewModel.swift in Sources */,
 				2FB826092A36754B00D872D2 /* SettingsView.swift in Sources */,
 				2FB8260B2A36772B00D872D2 /* LoginView.swift in Sources */,
 				2FD66ABE2A40B21A00638B03 /* ScannerView.swift in Sources */,
 				2F069EFE2A3FAD9900B13DDE /* Library.swift in Sources */,
+				2F5EEA5F2A480131007291AA /* LibraryBooksView.swift in Sources */,
 				2F069F042A3FD17B00B13DDE /* ImagePicker.swift in Sources */,
 				2FB825F42A365EAA00D872D2 /* moledroApp.swift in Sources */,
-				2F069F002A3FAEB800B13DDE /* LibraryViewModel.swift in Sources */,
+				2F8DD5562A4A3D420082F043 /* BookInfoDetailView.swift in Sources */,
+				2F069F002A3FAEB800B13DDE /* UserLibrariesViewModel.swift in Sources */,
 				2F069EFA2A3F753600B13DDE /* GoogleSignInButton.swift in Sources */,
+				2F5EEA652A4902A3007291AA /* LibraryViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -378,7 +382,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"moledro/Preview Content\"";
 				DEVELOPMENT_TEAM = UAU33DL52X;
 				ENABLE_PREVIEWS = YES;
@@ -412,7 +416,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"moledro/Preview Content\"";
 				DEVELOPMENT_TEAM = UAU33DL52X;
 				ENABLE_PREVIEWS = YES;

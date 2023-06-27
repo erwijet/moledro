@@ -2,37 +2,54 @@
 //  LibraryViewModel.swift
 //  moledro
 //
-//  Created by Tyler Holewinski on 6/18/23.
+//  Created by Tyler Holewinski on 6/25/23.
 //
 
-import Foundation
-import Firebase
-import FirebaseAuth
+import SwiftUI
+import FirebaseFirestore
 
 class LibraryViewModel: ObservableObject {
-    @Published var libraries = [Library]()
-    private var db = Firestore.firestore()
-    private var listener: ListenerRegistration?
+    @Published var library: Library?
     
-    init() {
-        setupListener()
-    }
+    private var libraryId: String?
+    private let db = Firestore.firestore()
     
-    private func setupListener() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
+    func loadLibrary(libraryId: String) {
+        // Fetch the library document from Firestore and assign it to the library property
         
-        listener = db.collection("libraries").whereField("ownerUID", isEqualTo: uid).addSnapshotListener { querySnapshot, error in
-            guard let documents = querySnapshot?.documents else { return }
+        let ref = db.collection("libraries").document(libraryId)
+        
+        ref.getDocument { [weak self] snapshot, error in
+            guard let snapshot = snapshot, snapshot.exists, let data = snapshot.data() else { return }
             
-            self.libraries = documents.map {
-                let data = $0.data()
-                return Library(id: $0.documentID, name: data["name"] as? String ?? "", ownerUID: data["ownerUID"] as? String ?? "")
+            let id = snapshot["id"] as? String ?? ""
+            let name = snapshot["name"] as? String ?? ""
+            let ownerUID = snapshot["ownerUID"] as? String ?? ""
+            
+            var books: [Book] = []
+            
+            if let bookData = data["books"] as? [[String: Any]] {
+                books = bookData.compactMap { bookDict in
+                    return Book(dict: bookDict)
+                }
             }
+            
+            self?.library = Library(id: id, name: name, ownerUID: ownerUID, books: books)
+            self?.libraryId = libraryId
         }
     }
     
-    func teardownListener() {
-        listener?.remove()
-        listener = nil
+    func addBook(_ book: Book) {
+        library?.books.append(book)
+        
+        guard let dict = try? library?.toDictionary(), let libraryId = self.libraryId else { return }
+        db.collection("libraries").document(libraryId).setData(dict)
+    }
+    
+    func removeBook(id: UUID) {
+        library?.books.removeAll { $0.id == id }
+        
+        guard let dict = try? library?.toDictionary(), let libraryId = self.libraryId else { return }
+        db.collection("libraries").document(libraryId).setData(dict)
     }
 }
