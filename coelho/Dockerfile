@@ -1,13 +1,21 @@
-FROM docker.io/python:3.11-bullseye
+FROM rust:bullseye as deps-builder
+
+RUN cd /tmp && cargo new coelho
+COPY Cargo.toml /tmp/coelho
+
+WORKDIR /tmp/coelho
+RUN cargo install cargo-build-deps
+RUN cargo build-deps --release
+
+##
+
+FROM rust:bullseye
 WORKDIR /coelho
 
+COPY --from=deps-builder /tmp/coelho/target/ /coelho/target
+
 COPY ./ /coelho
-
-RUN pip3 install poetry
-RUN poetry config virtualenvs.create false
-RUN poetry install
-
-
+RUN cargo build --release
 ENV FIREBASE_CRED firebase.json
 
-CMD ["poetry", "run", "python3", "-m", "uvicorn", "main:app", "--host", "0.0.0.0"]
+CMD ["./target/release/coelho"]

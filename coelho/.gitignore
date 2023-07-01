@@ -1,2 +1,13 @@
+
+debug/
+target/
+
+Cargo.lock
+
+**/*.rs.bk
+*.pdb
+
+##
+
 firebase.json
-__pycache__/
+openai.key
