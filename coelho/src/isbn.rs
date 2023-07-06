@@ -1,45 +1,60 @@
-use std::{collections::HashMap, sync::Mutex};
+use std::fmt::Debug;
 
-use actix_web::{
-    dev::RequestHead,
-    get,
-    web::{self, Query},
-    HttpResponse, Responder,
-};
+use actix_web::{get, web, HttpResponse, HttpResponseBuilder, Responder};
 use firestore_db_and_auth::documents;
 use serde::{Deserialize, Serialize};
 use serde_json::json;
+use soup::{NodeExt, QueryBuilderExt, Soup};
+use tap::Pipe;
 
 use crate::AppState;
 
-#[derive(Debug, Deserialize, Clone)]
-struct NamedUrl {
-    name: String,
-    #[serde(rename = "url")]
-    _url: String,
+macro_rules! try_option {
+    ($e:expr) => {
+        (|| -> Option<_> { Some($e) })()
+    };
 }
 
-#[derive(Debug, Deserialize, Clone)]
-struct OpenLibraryBookDataCovers {
-    large: String,
+macro_rules! load_soup {
+    ($($arg:tt)*) => {
+        Soup::new(&reqwest::get(format!($($arg)*)).await?.text().await?)
+    };
 }
 
-#[derive(Debug, Deserialize, Clone)]
-struct OpenLibraryBookDataIdentifiers {
-    lccn: Option<Vec<String>>, // library of congress control number
+macro_rules! guard {
+    (let $i:pat = try? $e:expr, else |$else_bound:ident| $handle:block $(; $($rest:tt)*)?) => {
+        let $i = match $e {
+            Ok(val) => val,
+            Err($else_bound) => {
+                $handle
+            }
+        };
+        $(guard! { $($rest)* } )?
+    };
+
+    (let $i:pat = $e:expr, else $handle:block $(; $($rest:tt)*)?) => {
+        let $i = match $e {
+            Some(val) => val,
+            None => {
+                $handle
+            }
+        };
+        $(guard! { $($rest)* } )?
+    };
 }
 
-#[derive(Debug, Deserialize, Clone)]
-struct OpenLibraryBookDataResponse {
-    title: String,
-    authors: Vec<NamedUrl>,
-    identifiers: Option<OpenLibraryBookDataIdentifiers>,
-    cover: OpenLibraryBookDataCovers,
-    subjects: Option<Vec<NamedUrl>>,
-    #[serde(rename = "key")]
-    _key: String,
-    #[serde(rename = "url")]
-    _url: String,
+trait WithErr<T, E> {
+    fn with_err(&mut self, err: E, when: &str) -> T;
+}
+
+impl<E: Debug> WithErr<HttpResponse, E> for HttpResponseBuilder {
+    fn with_err(&mut self, err: E, when: &str) -> HttpResponse {
+        self.json(json!({
+            "ok": false,
+            "result": format!("{:#?}", err),
+            "when": when
+        }))
+    }
 }
 
 #[derive(Deserialize)]
@@ -48,149 +63,136 @@ struct IsbnSearchQuery {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-struct IsbnResolvedQuery {
-    title: String,
-    author: String,
-    image: String,
-    subjects: Vec<String>,
-}
-
-impl From<OpenLibraryBookDataResponse> for IsbnResolvedQuery {
-    fn from(value: OpenLibraryBookDataResponse) -> Self {
-        Self {
-            title: value.title,
-            author: value
-                .authors
-                .first()
-                .map(|named_url| named_url.name.clone())
-                .unwrap_or("unknown".into()),
-            image: value.cover.large.into(),
-            subjects: value
-                .subjects
-                .map(|vec| vec.iter().map(|named_url| named_url.name.clone()).collect())
-                .unwrap_or(vec![]),
-        }
-    }
-}
-
-#[derive(Debug, Deserialize)]
-struct LibraryOfCongressQueryResultItem {
-    subject: Vec<String>,
-}
-
-#[derive(Debug, Deserialize)]
-struct LibraryOfCongressQueryResultSearch {
-    hits: u16,
-}
-
-#[derive(Debug, Deserialize)]
-struct LibraryOfCongressQueryResult {
-    search: LibraryOfCongressQueryResultSearch,
-    results: Vec<LibraryOfCongressQueryResultItem>,
+struct OclcClassification {
+    ddc: String,
+    fast_subjects: Vec<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-struct IsbnQueryResult {
-    cached: bool,
-    result: IsbnResolvedQuery,
+struct IsbnResolvedQuery {
+    title: String,
+    author: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    image: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    classification: Option<OclcClassification>,
 }
 
-async fn query_openlibrary(isbn: &str) -> Option<OpenLibraryBookDataResponse> {
-    let mut res: HashMap<String, OpenLibraryBookDataResponse> = reqwest::get(format!(
-        "https://openlibrary.org/api/books?bibkeys=ISBN:{}&format=json&jscmd=data",
-        isbn
-    ))
-    .await
-    .ok()?
-    .json()
-    .await
-    .ok()?;
+fn scrape_oclc_classification(soup: &Soup) -> Option<OclcClassification> {
+    let ddc = try_option!(soup
+        .tag("tbody")
+        .find()?
+        .tag("tr")
+        .find_all()
+        .nth(1)?
+        .tag("td")
+        .find_all()
+        .nth(1)?
+        .text());
 
-    res.remove(&format!("ISBN:{}", isbn).to_owned())
-}
+    let fast_subjects = try_option!(soup
+        .attr("id", "subheadtbl")
+        .find()?
+        .tag("tbody")
+        .find()?
+        .tag("tr")
+        .find_all()
+        .map(|row| row.tag("td").find().unwrap().text())
+        .collect::<Vec<_>>());
 
-async fn query_library_of_congress_by_lccn(lccn: &str) -> Option<LibraryOfCongressQueryResult> {
-    reqwest::get(format!("https://www.loc.gov/search/?q={}&fo=json", lccn))
-        .await
-        .ok()?
-        .json()
-        .await
-        .ok()?
-}
-
-#[derive(Serialize)]
-struct NormalizeSubjectsOpenAiRequestBody {
-    model: String,
-    prompt: String,
-    temperature: u32,
-    max_tokens: u32,
-    top_p: u32,
-    frequency_penalty: u32,
-    presence_penalty: u32,
-}
-
-impl From<String> for NormalizeSubjectsOpenAiRequestBody {
-    fn from(value: String) -> Self {
-        Self {
-            model: "text-davinci-003".into(),
-            prompt: value,
-            temperature: 0,
-            max_tokens: 100,
-            top_p: 1,
-            frequency_penalty: 0,
-            presence_penalty: 0,
-        }
+    if let (Some(ddc), Some(fast_subjects)) = (ddc, fast_subjects) {
+        return Some(OclcClassification { ddc, fast_subjects });
     }
+
+    None
 }
 
-#[derive(Deserialize)]
-struct NormalizeSubjectsOpenAiResponseChoice {
-    text: String,
+async fn query_oclc(isbn: &str) -> Result<Option<OclcClassification>, reqwest::Error> {
+    let soup = load_soup!(
+        "http://classify.oclc.org/classify2/ClassifyDemo?search-standnum-txt={}&startRec=0",
+        isbn
+    );
+
+    // if only one result is found, then we should be able to scrape it right away
+
+    if let Some(classification) = scrape_oclc_classification(&soup) {
+        return Ok(Some(classification));
+    }
+
+    // if we can't, try to navigate to the first link and try again
+
+    guard! {
+        let link = try_option!(soup
+            .tag("tbody")
+            .find()?
+            .tag("tr")
+            .find()?
+            .class("title")
+            .find()?
+            .tag("a")
+            .find()?
+            .attrs()
+            .get("href")?
+            .clone()), else { return Ok(None) }
+    }
+
+    let soup = load_soup!("http://classify.oclc.org{}", link);
+
+    Ok(scrape_oclc_classification(&soup))
 }
 
-#[derive(Deserialize)]
-struct NormalizeSubjectsOpenAiResponse {
-    choices: Vec<NormalizeSubjectsOpenAiResponseChoice>,
+#[derive(Debug)]
+struct AddAllQueryResult {
+    title: String,
+    author: String,
+    image: Option<String>,
 }
 
-// async fn normalize_subjects(subjects: &Vec<String>) -> Vec<String> {
-//     let prompt = serde_json::to_string(&NormalizeSubjectsOpenAiRequestBody::from(format!("Normalize the given book subjects for an english audiance. If any subject is more than 4 words, summarize it. Seperate with semi-colons.\nBook Subjects: ```{}```\nNormalized Subjects:", subjects.join("\n")))).unwrap();
+async fn query_addall(isbn: &str) -> Result<Option<AddAllQueryResult>, reqwest::Error> {
+    let soup = load_soup!(
+        "https://www.addall.com/New/NewSearch.cgi?query={}&type=ISBN",
+        isbn
+    );
 
-//     let res: NormalizeSubjectsOpenAiResponse = reqwest::Client::new()
-//         .post("https://api.openai.com/v1/completions")
-//         .bearer_auth(std::env::var("OPENAI_API_KEY").unwrap())
-//         .header("Content-Type", "application/json")
-//         .body(prompt)
-//         .send()
-//         .await
-//         .unwrap()
-//         .json()
-//         .await
-//         .unwrap();
+    let title = try_option!(soup.class("ntitle").find()?.text());
+    let author = try_option!(soup
+        .class("nauthor")
+        .find()?
+        .text()
+        .split("by")
+        .nth(1)?
+        .trim()
+        .to_owned());
 
-//     println!("----------");
-//     println!("input: {}", subjects.join("\n"));
-//     println!("output: {}", res.choices.first().unwrap().text);
+    let image = try_option!(soup
+        .class("nimg")
+        .find()?
+        .tag("img")
+        .find()?
+        .attrs()
+        .get("src")?
+        .to_owned()
+        .pipe(|img| {
+            if img.starts_with("https://m.media-amazon.com/") && img.contains("160") {
+                img.replace("160", "512")
+            } else {
+                img
+            }
+        }));
 
-//     res.choices
-//         .first()
-//         .unwrap()
-//         .text
-//         .split(";")
-//         .map(|kwd| {
-//             kwd.chars()
-//                 .filter(|c| c.is_alphanumeric() || c.is_whitespace())
-//                 .collect::<String>()
-//                 .to_lowercase()
-//                 .trim()
-//                 .into()
-//         })
-//         .filter(|s: &String| !s.is_empty())
-//         .collect()
-// }
+    Ok(if let (Some(title), Some(author)) = (title, author) {
+        Some(AddAllQueryResult {
+            title,
+            author,
+            image,
+        })
+    } else {
+        None
+    })
+}
 
 #[get("/isbn/search")]
-async fn search(query: Query<IsbnSearchQuery>, data: web::Data<AppState>) -> impl Responder {
+async fn search(query: web::Query<IsbnSearchQuery>, data: web::Data<AppState>) -> impl Responder {
     let IsbnSearchQuery { q } = &*query;
     let session = data.session.lock().unwrap();
 
@@ -200,45 +202,46 @@ async fn search(query: Query<IsbnSearchQuery>, data: web::Data<AppState>) -> imp
         return HttpResponse::Ok().json(json!({ "ok": true, "cached": true, "result": res }));
     }
 
-    // attempt to query openlibrary
+    guard! {
+        // attempt to query addall for basic book details
 
-    if let Some(ol_res) = query_openlibrary(q).await {
-        let mut res: IsbnResolvedQuery = ol_res.clone().into();
+        let addall_result = try? query_addall(&q).await, else |err| {
+            return HttpResponse::InternalServerError()
+                .with_err(err, "attempting to query addall.com")
+        };
 
-        // if an LCCN is present, then try to resolve subjects via loc.gov
+        let AddAllQueryResult { title, author, image } = addall_result, else {
+            return HttpResponse::NotFound()
+                .with_err("not found", "attempting to query addall.com")
+        };
 
-        if let Some(lccn) = ol_res
-            .identifiers
-            .and_then(|x| x.lccn)
-            .and_then(|lccns| lccns.first().cloned())
-        {
-            if let Some(loc_res) = query_library_of_congress_by_lccn(&lccn).await {
-                if loc_res.search.hits != 0 && !loc_res.results.first().unwrap().subject.is_empty()
-                {
-                    res.subjects = loc_res.results.first().unwrap().subject.clone()
-                }
-            }
+        // attempt to query classification information
+
+        let classification = try? query_oclc(&q).await, else |err| {
+            return HttpResponse::InternalServerError()
+                .with_err(err, "attempting to query oclc.org for work classification information")
         }
+    };
 
-        // cache the response
+    let resolution = IsbnResolvedQuery {
+        title,
+        author,
+        image,
+        classification,
+    };
 
-        if let Err(err) = documents::write(
-            &*session,
-            "isbn_query_cache",
-            Some(q),
-            &res,
-            documents::WriteOptions::default(),
-        ) {
-            return HttpResponse::InternalServerError().json(json!({
-                "ok": false,
-                "result": format!("{:#?}", err),
-                "when": "attempting a cache write for a successful openlibrary query"
-            }));
-        }
+    // write this resolution to the cache collection
 
-        return HttpResponse::Ok().json(json!({ "ok": true, "cached": false, "result": res }));
+    if let Err(err) = documents::write(
+        &*session,
+        "isbn_query_cache",
+        Some(q),
+        &resolution,
+        documents::WriteOptions::default(),
+    ) {
+        return HttpResponse::InternalServerError()
+            .with_err(err, "attempting to write resolution to query cache");
     }
 
-    return HttpResponse::NotFound()
-        .json(json!({ "ok": false, "cached": false, "result": "not found", "when": "attempting to query openlibrary" }));
+    HttpResponse::Ok().json(json!({ "ok": true, "cached": false, "result": resolution }))
 }

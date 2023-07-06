@@ -2,7 +2,6 @@ use actix_web::{web, App, HttpServer};
 use firestore_db_and_auth::ServiceSession;
 
 mod hello;
-mod http;
 mod isbn;
 
 struct AppState {

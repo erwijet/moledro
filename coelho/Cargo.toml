@@ -7,9 +7,9 @@ edition = "2021"
 
 [dependencies]
 actix-web = "4.3.1"
-anyhow = "1.0.71"
 firestore-db-and-auth = "0.6.1"
 reqwest = { version = "0.11.18", features = ["blocking", "json"] }
 serde = { version = "1.0.164", features = ["derive"] }
 serde_json = "1.0.99"
 soup = "0.5.1"
+tap = "1.0.1"
