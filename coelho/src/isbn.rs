@@ -160,16 +160,24 @@ struct GoogleBookQueryResultItem {
 #[serde(rename_all = "camelCase")]
 struct GoogleBookQueryResultItemVolumeInfo {
     title: String,
-    authors: Vec<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    authors: Option<Vec<String>>,
     #[serde(skip_serializing_if = "Option::is_none")]
     preview_link: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    image_links: Option<GoogleBookQueryResultItemImageLinks>,
+}
+
+#[derive(Debug, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
+struct GoogleBookQueryResultItemImageLinks {
+    thumbnail: String,
 }
 
 #[derive(Debug, Deserialize)]
 struct BasicBookInfo {
     title: String,
     author: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
     image: Option<String>,
 }
 
@@ -190,11 +198,13 @@ async fn query_googlebooks(isbn: &str) -> Result<Option<BasicBookInfo>, reqwest:
         title,
         authors,
         preview_link,
+        image_links,
     } = result.items.unwrap().first().unwrap().volume_info.clone();
 
     Ok(Some(BasicBookInfo {
         title,
         author: authors
+            .unwrap_or(vec!["Unknown".into()])
             .iter()
             .map(|raw| {
                 if raw.contains(",") || !raw.contains(" ") {
@@ -218,7 +228,7 @@ async fn query_googlebooks(isbn: &str) -> Result<Option<BasicBookInfo>, reqwest:
             if link.contains("frontcover") {
                 Some(format!("{}&img=1", link))
             } else {
-                None
+                image_links.map(|links| links.thumbnail)
             }
         }),
     }))
@@ -237,17 +247,18 @@ async fn search(query: web::Query<IsbnSearchQuery>, data: web::Data<AppState>) -
         return HttpResponse::Ok().json(json!({ "ok": true, "cached": true, "result": res }));
     }
 
-    guard! {
-        // attempt to query addall for basic book details
+    let book_info = query_googlebooks(&q).await.unwrap();
 
-        let book_info = try? query_googlebooks(&q).await, else |err| {
-            return HttpResponse::InternalServerError()
-                .with_err(err, "attempting to query google books api")
-        };
+    guard! {
+
+        // let book_info = try? query_googlebooks(&q).await, else |err| {
+        //     return HttpResponse::InternalServerError()
+        //         .with_err(err, &*format!("attempting to query google books api for 'ISBN:{}'", q))
+        // };
 
         let BasicBookInfo { title, author, image } = book_info, else {
             return HttpResponse::NotFound()
-                .with_err("not found", "attempting to query google books api")
+                .with_err("not found", &*format!("attempting to query google books api for 'ISBN:{}'", q))
         };
 
         // attempt to query classification information
