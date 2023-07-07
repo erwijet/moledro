@@ -71,6 +71,7 @@ struct OclcClassification {
 #[derive(Debug, Serialize, Deserialize)]
 struct IsbnResolvedQuery {
     title: String,
+    isbn: String,
     author: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     image: Option<String>,
@@ -262,6 +263,7 @@ async fn search(query: web::Query<IsbnSearchQuery>, data: web::Data<AppState>) -
         author,
         image,
         classification,
+        isbn: q.to_owned(),
     };
 
     // write this resolution to the cache collection
