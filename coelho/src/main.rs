@@ -1,3 +1,5 @@
+#![deny(warnings)]
+
 use actix_web::{web, App, HttpServer};
 use firestore_db_and_auth::ServiceSession;
 
@@ -6,7 +8,7 @@ mod isbn;
 
 struct AppState {
     /// the firebase service session
-    session: std::sync::Mutex<ServiceSession>,
+    session: ServiceSession,
 }
 
 #[actix_web::main]
@@ -23,9 +25,7 @@ async fn main() -> std::io::Result<()> {
 
         App::new()
             .app_data(web::Data::new(AppState {
-                session: std::sync::Mutex::new(
-                    ServiceSession::new(cred).expect("create a service account session"),
-                ),
+                session: ServiceSession::new(cred).expect("create a service account session"),
             }))
             .service(hello::hello)
             .service(isbn::search)

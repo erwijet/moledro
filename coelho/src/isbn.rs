@@ -1,11 +1,11 @@
-use std::fmt::Debug;
+use std::{borrow::Borrow, fmt::Debug};
 
 use actix_web::{get, web, HttpResponse, HttpResponseBuilder, Responder};
 use firestore_db_and_auth::documents;
 use serde::{Deserialize, Serialize};
 use serde_json::json;
 use soup::{NodeExt, QueryBuilderExt, Soup};
-use tap::Pipe;
+use tap::{Pipe, Tap};
 
 use crate::AppState;
 
@@ -141,60 +141,94 @@ async fn query_oclc(isbn: &str) -> Result<Option<OclcClassification>, reqwest::E
     Ok(scrape_oclc_classification(&soup))
 }
 
-#[derive(Debug)]
-struct AddAllQueryResult {
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct GoogleBooksQueryResult {
+    total_items: u8,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    items: Option<Vec<GoogleBookQueryResultItem>>,
+}
+
+#[derive(Debug, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
+struct GoogleBookQueryResultItem {
+    volume_info: GoogleBookQueryResultItemVolumeInfo,
+}
+
+#[derive(Debug, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
+struct GoogleBookQueryResultItemVolumeInfo {
+    title: String,
+    authors: Vec<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    preview_link: Option<String>,
+}
+
+#[derive(Debug, Deserialize)]
+struct BasicBookInfo {
     title: String,
     author: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
     image: Option<String>,
 }
 
-async fn query_addall(isbn: &str) -> Result<Option<AddAllQueryResult>, reqwest::Error> {
-    let soup = load_soup!(
-        "https://www.addall.com/New/NewSearch.cgi?query={}&type=ISBN",
+async fn query_googlebooks(isbn: &str) -> Result<Option<BasicBookInfo>, reqwest::Error> {
+    let result: GoogleBooksQueryResult = reqwest::get(format!(
+        "https://www.googleapis.com/books/v1/volumes?q=isbn:{}",
         isbn
-    );
+    ))
+    .await?
+    .json()
+    .await?;
 
-    let title = try_option!(soup.class("ntitle").find()?.text());
-    let author = try_option!(soup
-        .class("nauthor")
-        .find()?
-        .text()
-        .split("by")
-        .nth(1)?
-        .trim()
-        .to_owned());
+    if result.total_items == 0 {
+        return Ok(None);
+    }
 
-    let image = try_option!(soup
-        .class("nimg")
-        .find()?
-        .tag("img")
-        .find()?
-        .attrs()
-        .get("src")?
-        .to_owned()
-        .pipe(|img| {
-            if img.starts_with("https://m.media-amazon.com/") && img.contains("160") {
-                img.replace("160", "512")
+    let GoogleBookQueryResultItemVolumeInfo {
+        title,
+        authors,
+        preview_link,
+    } = result.items.unwrap().first().unwrap().volume_info.clone();
+
+    Ok(Some(BasicBookInfo {
+        title,
+        author: authors
+            .iter()
+            .map(|raw| {
+                if raw.contains(",") || !raw.contains(" ") {
+                    return raw.to_owned(); // no change
+                }
+
+                raw.split(" ")
+                    .map(Into::into)
+                    .collect::<Vec<String>>()
+                    .pipe_as_mut(|vec: &mut Vec<String>| {
+                        vec.pop()
+                            .unwrap()
+                            .tap(|last| vec.insert(0, last.to_owned() + ","));
+                        vec.join(" ")
+                    })
+            })
+            .map(Into::into)
+            .collect::<Vec<String>>()
+            .join("; "),
+        image: preview_link.and_then(|link| {
+            if link.contains("frontcover") {
+                Some(format!("{}&img=1", link))
             } else {
-                img
+                None
             }
-        }));
-
-    Ok(if let (Some(title), Some(author)) = (title, author) {
-        Some(AddAllQueryResult {
-            title,
-            author,
-            image,
-        })
-    } else {
-        None
-    })
+        }),
+    }))
 }
 
 #[get("/isbn/search")]
 async fn search(query: web::Query<IsbnSearchQuery>, data: web::Data<AppState>) -> impl Responder {
     let IsbnSearchQuery { q } = &*query;
-    let session = data.session.lock().unwrap();
+
+    // note: we have to copy the memory here to avoid https://github.com/davidgraeff/firestore-db-and-auth-rs/issues/30
+    let session = data.session.borrow().to_owned();
 
     // check for cached result
 
@@ -205,14 +239,14 @@ async fn search(query: web::Query<IsbnSearchQuery>, data: web::Data<AppState>) -
     guard! {
         // attempt to query addall for basic book details
 
-        let addall_result = try? query_addall(&q).await, else |err| {
+        let book_info = try? query_googlebooks(&q).await, else |err| {
             return HttpResponse::InternalServerError()
-                .with_err(err, "attempting to query addall.com")
+                .with_err(err, "attempting to query google books api")
         };
 
-        let AddAllQueryResult { title, author, image } = addall_result, else {
+        let BasicBookInfo { title, author, image } = book_info, else {
             return HttpResponse::NotFound()
-                .with_err("not found", "attempting to query addall.com")
+                .with_err("not found", "attempting to query google books api")
         };
 
         // attempt to query classification information
