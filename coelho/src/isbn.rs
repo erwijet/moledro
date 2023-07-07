@@ -230,7 +230,7 @@ async fn query_googlebooks(isbn: &str) -> Result<Option<BasicBookInfo>, reqwest:
             } else {
                 image_links.map(|links| links.thumbnail)
             }
-        }),
+        }).map(|link| link.replace("http", "https")),
     }))
 }
 
