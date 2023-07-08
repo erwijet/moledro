@@ -23,7 +23,8 @@
 		2F5EEA5F2A480131007291AA /* LibraryBooksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5EEA5E2A480131007291AA /* LibraryBooksView.swift */; };
 		2F5EEA632A48AF07007291AA /* LibrarySettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5EEA622A48AF07007291AA /* LibrarySettingsView.swift */; };
 		2F5EEA652A4902A3007291AA /* LibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5EEA642A4902A3007291AA /* LibraryViewModel.swift */; };
-		2F8DD5562A4A3D420082F043 /* BookInfoDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8DD5552A4A3D420082F043 /* BookInfoDetailView.swift */; };
+		2F8DD5562A4A3D420082F043 /* BookDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8DD5552A4A3D420082F043 /* BookDetailView.swift */; };
+		2F9E790A2A57D6CC00369C52 /* ChipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9E79092A57D6CC00369C52 /* ChipView.swift */; };
 		2FB825F42A365EAA00D872D2 /* moledroApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB825F32A365EAA00D872D2 /* moledroApp.swift */; };
 		2FB825F62A365EAA00D872D2 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB825F52A365EAA00D872D2 /* MainView.swift */; };
 		2FB825F82A365EAB00D872D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2FB825F72A365EAB00D872D2 /* Assets.xcassets */; };
@@ -34,6 +35,9 @@
 		2FD66ABC2A400BF100638B03 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD66ABB2A400BF100638B03 /* Book.swift */; };
 		2FD66ABE2A40B21A00638B03 /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD66ABD2A40B21A00638B03 /* ScannerView.swift */; };
 		2FD66AC12A40B3CA00638B03 /* BarcodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 2FD66AC02A40B3CA00638B03 /* BarcodeScanner */; };
+		2FE3D0BE2A5889DC0064E973 /* WrappingHStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE3D0BD2A5889DC0064E973 /* WrappingHStack.swift */; };
+		2FE3D0C02A58E3250064E973 /* EditStringsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE3D0BF2A58E3250064E973 /* EditStringsView.swift */; };
+		2FE3D0C22A59BFF40064E973 /* BookGalleryItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE3D0C12A59BFF40064E973 /* BookGalleryItemView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,7 +53,8 @@
 		2F5EEA5E2A480131007291AA /* LibraryBooksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryBooksView.swift; sourceTree = "<group>"; };
 		2F5EEA622A48AF07007291AA /* LibrarySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibrarySettingsView.swift; sourceTree = "<group>"; };
 		2F5EEA642A4902A3007291AA /* LibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewModel.swift; sourceTree = "<group>"; };
-		2F8DD5552A4A3D420082F043 /* BookInfoDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookInfoDetailView.swift; sourceTree = "<group>"; };
+		2F8DD5552A4A3D420082F043 /* BookDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailView.swift; sourceTree = "<group>"; };
+		2F9E79092A57D6CC00369C52 /* ChipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChipView.swift; sourceTree = "<group>"; };
 		2FB825F02A365EAA00D872D2 /* moledro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = moledro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FB825F32A365EAA00D872D2 /* moledroApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = moledroApp.swift; sourceTree = "<group>"; };
 		2FB825F52A365EAA00D872D2 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -59,6 +64,9 @@
 		2FD66AB72A3FEB6700638B03 /* FirebaseStorageImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageImageLoader.swift; sourceTree = "<group>"; };
 		2FD66ABB2A400BF100638B03 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		2FD66ABD2A40B21A00638B03 /* ScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
+		2FE3D0BD2A5889DC0064E973 /* WrappingHStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrappingHStack.swift; sourceTree = "<group>"; };
+		2FE3D0BF2A58E3250064E973 /* EditStringsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStringsView.swift; sourceTree = "<group>"; };
+		2FE3D0C12A59BFF40064E973 /* BookGalleryItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookGalleryItemView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +133,9 @@
 				2FB825F72A365EAB00D872D2 /* Assets.xcassets */,
 				2F069EF72A3F720500B13DDE /* AuthViewModel.swift */,
 				2F069EF92A3F753600B13DDE /* GoogleSignInButton.swift */,
+				2F9E79092A57D6CC00369C52 /* ChipView.swift */,
+				2FE3D0BD2A5889DC0064E973 /* WrappingHStack.swift */,
+				2FE3D0BF2A58E3250064E973 /* EditStringsView.swift */,
 			);
 			path = moledro;
 			sourceTree = "<group>";
@@ -142,7 +153,8 @@
 			children = (
 				2FD66ABB2A400BF100638B03 /* Book.swift */,
 				2F5EEA5E2A480131007291AA /* LibraryBooksView.swift */,
-				2F8DD5552A4A3D420082F043 /* BookInfoDetailView.swift */,
+				2F8DD5552A4A3D420082F043 /* BookDetailView.swift */,
+				2FE3D0C12A59BFF40064E973 /* BookGalleryItemView.swift */,
 			);
 			path = Book;
 			sourceTree = "<group>";
@@ -235,18 +247,22 @@
 				2F069F022A3FCD9A00B13DDE /* LibraryBuilderView.swift in Sources */,
 				2FD66AB82A3FEB6700638B03 /* FirebaseStorageImageLoader.swift in Sources */,
 				2FD66ABC2A400BF100638B03 /* Book.swift in Sources */,
+				2FE3D0C02A58E3250064E973 /* EditStringsView.swift in Sources */,
+				2FE3D0BE2A5889DC0064E973 /* WrappingHStack.swift in Sources */,
 				2F069EFC2A3F7DAA00B13DDE /* LibraryView.swift in Sources */,
 				2FB825F62A365EAA00D872D2 /* MainView.swift in Sources */,
 				2F5EEA632A48AF07007291AA /* LibrarySettingsView.swift in Sources */,
 				2F069EF82A3F720500B13DDE /* AuthViewModel.swift in Sources */,
+				2FE3D0C22A59BFF40064E973 /* BookGalleryItemView.swift in Sources */,
 				2FB826092A36754B00D872D2 /* SettingsView.swift in Sources */,
 				2FB8260B2A36772B00D872D2 /* LoginView.swift in Sources */,
 				2FD66ABE2A40B21A00638B03 /* ScannerView.swift in Sources */,
 				2F069EFE2A3FAD9900B13DDE /* Library.swift in Sources */,
+				2F9E790A2A57D6CC00369C52 /* ChipView.swift in Sources */,
 				2F5EEA5F2A480131007291AA /* LibraryBooksView.swift in Sources */,
 				2F069F042A3FD17B00B13DDE /* ImagePicker.swift in Sources */,
 				2FB825F42A365EAA00D872D2 /* moledroApp.swift in Sources */,
-				2F8DD5562A4A3D420082F043 /* BookInfoDetailView.swift in Sources */,
+				2F8DD5562A4A3D420082F043 /* BookDetailView.swift in Sources */,
 				2F069F002A3FAEB800B13DDE /* UserLibrariesViewModel.swift in Sources */,
 				2F069EFA2A3F753600B13DDE /* GoogleSignInButton.swift in Sources */,
 				2F5EEA652A4902A3007291AA /* LibraryViewModel.swift in Sources */,

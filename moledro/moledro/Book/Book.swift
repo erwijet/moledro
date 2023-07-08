@@ -12,10 +12,11 @@ struct Book: Codable, Identifiable, Hashable {
     let isbn: String
     let title: String
     let author: String
-    let binding: String
-    let publishDate: String
     let ownerUID: String
-    let img: String?
+    let image: String?
+    let ddc: String?
+    let subjects: [String]
+    let tags: [String]
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
@@ -28,9 +29,11 @@ extension Book {
         isbn = bookInfo.isbn
         title = bookInfo.title
         author = bookInfo.author
-        binding = bookInfo.binding
-        publishDate = bookInfo.pub_date
-        img = bookInfo.img
+        image = bookInfo.image
+        ddc = bookInfo.classification?.ddc
+        subjects = bookInfo.classification?.fast_subjects ?? [String]()
+        tags = [String]()
+        
         
         self.ownerUID = ownerUID
     }
@@ -40,41 +43,49 @@ extension Book {
                let id = UUID(uuidString: idString),
                let title = dict["title"] as? String,
                let author = dict["author"] as? String,
-               let binding = dict["binding"] as? String,
                let isbn = dict["isbn"] as? String,
-               let publishDate = dict["publishDate"] as? String,
+               let subjects = dict["subjects"] as? [String],
+               let tags = dict["tags"] as? [String],
                let ownerUID = dict["ownerUID"] as? String else {
                    return nil
          }
-         
-         self.id = id
-         self.isbn = isbn
-         self.title = title
-         self.author = author
-         self.binding = binding
-         self.publishDate = publishDate
-         self.ownerUID = ownerUID
-         self.img = dict["img"] as? String
+        
+        self.id = id
+        self.isbn = isbn
+        self.title = title
+        self.author = author
+        self.ownerUID = ownerUID
+        self.subjects = subjects
+        self.tags = tags
+        
+        self.ddc = dict["ddc"] as? String
+        self.image = dict["image"] as? String
      }
+}
+
+struct BookInfoClassification: Codable {
+    let ddc: String;
+    let fast_subjects: [String];
 }
 
 struct BookInfo: Codable {
     let title: String
     let author: String
-    let pub_date: String
-    let binding: String
     let isbn: String
-    let img: String?
+    let image: String?
+    let classification: BookInfoClassification?;
 }
+
 
 extension BookInfo {
     init(from book: Book) {
         self.title = book.title
         self.author = book.author
-        self.pub_date = book.publishDate
-        self.binding = book.binding
         self.isbn = book.isbn
-        self.img = book.img
+        self.image = book.image
+        
+        self.classification = book.ddc != nil ? BookInfoClassification(ddc: book.ddc!, fast_subjects: book.subjects) : nil
+        
     }
 }
 

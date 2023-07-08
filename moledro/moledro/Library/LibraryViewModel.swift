@@ -22,33 +22,34 @@ class LibraryViewModel: ObservableObject {
         ref.getDocument { [weak self] snapshot, error in
             guard let snapshot = snapshot, snapshot.exists, let data = snapshot.data() else { return }
             
-            let id = snapshot.documentID
-            let name = snapshot["name"] as? String ?? ""
-            let ownerUID = snapshot["ownerUID"] as? String ?? ""
+            self?.library = Library(
+                id: snapshot.documentID,
+                name: snapshot["name"] as? String ?? "",
+                ownerUID: snapshot["ownerUID"] as? String ?? "",
+                settings: (data["settings"] as? [String: Any]).flatMap { LibrarySettings(dict: $0) } ?? LibrarySettings(),
+                books: (data["books"] as? [[String: Any]])?.compactMap { Book(dict: $0) } ?? [Book]()
+            )
             
-            var books: [Book] = []
-            
-            if let bookData = data["books"] as? [[String: Any]] {
-                books = bookData.compactMap { bookDict in
-                    return Book(dict: bookDict)
-                }
-            }
-            
-            self?.library = Library(id: id, name: name, ownerUID: ownerUID, books: books)
             self?.libraryId = libraryId
         }
     }
     
     func addBook(_ book: Book) {
         library?.books.append(book)
-        
-        guard let dict = try? library?.toDictionary(), let libraryId = self.libraryId else { return }
-        db.collection("libraries").document(libraryId).setData(dict)
+        commitLibrary()
     }
     
     func removeBook(id: UUID) {
         library?.books.removeAll { $0.id == id }
-        
+        commitLibrary()
+    }
+    
+    func setSettings(settings: LibrarySettings) {
+        library?.settings = settings
+        commitLibrary()
+    }
+    
+    private func commitLibrary() {
         guard let dict = try? library?.toDictionary(), let libraryId = self.libraryId else { return }
         db.collection("libraries").document(libraryId).setData(dict)
     }

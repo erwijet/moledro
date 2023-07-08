@@ -14,7 +14,7 @@ struct SettingsView: View {
     private let user = GIDSignIn.sharedInstance.currentUser
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 Section("My Account") {
                     NavigationLink(destination: AccountView()) {

@@ -91,12 +91,7 @@ struct LibraryBuilderView: View {
         
         isLoading = true
         
-        let libraryRef = db.collection("libraries").addDocument(data: [
-            "name": libraryName,
-            "ownerUID": uid,
-            "books": [Book]()
-        ])
-
+        let libraryRef = db.collection("libraries").document()
         let imageName = "\(libraryRef.documentID).jpg"
         
         storage.child(imageName).putData(imageData, metadata: nil) { (_, error) in
@@ -104,6 +99,12 @@ struct LibraryBuilderView: View {
                 print("Error uploading image: \(error.localizedDescription)")
                 return
             }
+            
+            libraryRef.setData([
+                "name": libraryName,
+                "ownerUID": uid,
+                "books": [Book]()
+            ])
             
             presentationMode.wrappedValue.dismiss()
         }

@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-
 import FirebaseFirestore
 import FirebaseAuth
 
@@ -25,8 +24,8 @@ struct LibraryBooksView: View {
     
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openURL) private var openURL
- 
-    @StateObject private var libraryViewModel: LibraryViewModel = LibraryViewModel()
+    
+    @ObservedObject private var libraryViewModel: LibraryViewModel = LibraryViewModel()
     
     @State private var searchQuery = ""
     @State private var isShowingLibrarySettings = false
@@ -35,27 +34,29 @@ struct LibraryBooksView: View {
     var body: some View {
         if let library = libraryViewModel.library {
             NavigationStack {
-                List(library.books.filter {book in
-                    searchQuery.isEmpty || book.title.localizedCaseInsensitiveContains(searchQuery)
+                List(library.books.filter { book in
+                    searchQuery.isEmpty || book.title.localizedCaseInsensitiveContains(searchQuery) || book.tags.contains(where: { $0.localizedCaseInsensitiveContains(searchQuery) })
                 }, id: \.id) { book in
                     NavigationLink(
-                        destination: BookInfoDetailView(bookInfo: BookInfo.init(from: book)).navigationTitle(book.title),
+                        destination: BookDetailView(book: book),
                         label: {
-                            Text(book.title)
+                            BookGalleryItemView(book: book, libraryViewModel: libraryViewModel)
                         }
-                    ) .swipeActions {
+                    )
+                    .swipeActions {
                         Button("Delete") {
                             libraryViewModel.removeBook(id: book.id)
                         }.tint(.red)
-                    } .contextMenu(menuItems: {
-                        Button {
+                    }
+                    .contextMenu(menuItems: {
+                        Button(action: {
                             openURL(URL(string: "https://bookscouter.com/bulk-comparison?isbn=\(book.isbn)")!)
-                        } label: {
+                        }) {
                             Label("Open in Bookscouter", systemImage: "dollarsign.arrow.circlepath")
                         }
                     }, preview: {
-                        if let img = book.img {
-                            AsyncImage(url: URL(string: img)!) { image in
+                        if let image = book.image {
+                            AsyncImage(url: URL(string: image)!) { image in
                                 image
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
@@ -67,7 +68,7 @@ struct LibraryBooksView: View {
                                     .foregroundColor(.secondary)
                             }
                         } else {
-                            Text("No Preview Avalible")
+                            Text("No Preview Available")
                         }
                     })
                 }
@@ -75,24 +76,24 @@ struct LibraryBooksView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
+                    Button(action: {
                         isShowingLibrarySettings = true
-                    } label: {
+                    }) {
                         Image(systemName: "gear")
                     }
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Menu {
-                        Button {
+                        Button(action: {
                             isShowingScanner = true
-                        } label: {
+                        }) {
                             Label("Scan Barcode", systemImage: "barcode.viewfinder")
                         }
                         
-                        Button {
+                        Button(action: {
                             // Handle enter manually action
-                        } label: {
+                        }) {
                             Label("Enter Manually", systemImage: "square.and.pencil")
                         }
                     } label: {
@@ -101,19 +102,23 @@ struct LibraryBooksView: View {
                 }
             }
             .navigationTitle(libraryViewModel.library?.name ?? "")
-            .sheet(isPresented: $isShowingLibrarySettings) {
-                if let library = libraryViewModel.library {
-                    LibrarySettingsView(library: library, libraryDidDelete: {
-                        isShowingLibrarySettings = false
-                        dismiss()
-                    })
+            .sheet(isPresented: $isShowingLibrarySettings, onDismiss: {
+                print("settings did update")
+            }) {
+                LibrarySettingsView(library: library, libraryDidDelete: {
+                    isShowingLibrarySettings = false
+                    dismiss()
+                }, libraryShouldDismiss: {
+                    isShowingLibrarySettings = false
+                }) { draft in
+                    libraryViewModel.setSettings(settings: draft)
                 }
             }
             .sheet(isPresented: $isShowingScanner) {
                 IsbnScanAndQueryView { resp in
                     guard let result = resp?.result, let uid = Auth.auth().currentUser?.uid else { return }
                     
-                    onAddBook(book: .init(from: result, withOwner: uid))
+                    onAddBook(book: Book(from: result, withOwner: uid))
                     
                 } willDismiss: {
                     isShowingScanner = false

@@ -27,7 +27,14 @@ private func setupListener() {
             
             self.libraries = documents.map {
                 let data = $0.data()
-                    return Library(id: $0.documentID, name: data["name"] as? String ?? "", ownerUID: data["ownerUID"] as? String ?? "", books: (data["books"] as? [[String: Any]])?.compactMap { Book(dict: $0 ) } ?? [Book]() )
+                
+                return Library(
+                    id: $0.documentID,
+                    name: data["name"] as? String ?? "",
+                    ownerUID: data["ownerUID"] as? String ?? "",
+                    settings: (data["settings"] as? [String: Any]).flatMap { LibrarySettings(dict: $0) } ?? LibrarySettings(),
+                    books: (data["books"] as? [[String: Any]])?.compactMap { Book(dict: $0 ) } ?? [Book]()
+                )
             }
         }
     }

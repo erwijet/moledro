@@ -12,9 +12,3 @@ struct EditStringsView: View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
     }
 }
-
-struct EditStringsView_Previews: PreviewProvider {
-    static var previews: some View {
-        EditStringsView()
-    }
-}

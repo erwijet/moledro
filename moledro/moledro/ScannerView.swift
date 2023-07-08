@@ -45,7 +45,7 @@ struct IsbnScanAndQueryView: UIViewControllerRepresentable {
         }
         
         func scanner(_ controller: BarcodeScanner.BarcodeScannerViewController, didCaptureCode code: String, type: String) {
-            guard let url = URL(string: "https://coelho.holewinski.dev/search/isbn?q=\(code)") else { return }
+            guard let url = URL(string: "https://coelho.holewinski.dev/isbn/search?q=\(code)") else { return }
             
             let task = URLSession.shared.dataTask(with: url) { data, _, err in
                 if let err = err {
@@ -97,7 +97,7 @@ struct ScannerView: View {
     
     var body: some View {
         if let book = bookInfo {
-            BookInfoDetailView(bookInfo: book)
+//            BookInfoDetailView(bookInfo: book)
         }
         
         Button("Open Scanner") {
