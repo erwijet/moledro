@@ -239,11 +239,13 @@ async fn search(query: web::Query<IsbnSearchQuery>, data: web::Data<AppState>) -
     let IsbnSearchQuery { q } = &*query;
 
     // note: we have to copy the memory here to avoid https://github.com/davidgraeff/firestore-db-and-auth-rs/issues/30
-    let session = data.session.borrow().to_owned();
+    let creds = data.credentials.borrow().to_owned();
+
+    let session = firestore_db_and_auth::ServiceSession::new(creds).unwrap();
 
     // check for cached result
 
-    if let Ok(res) = documents::read::<IsbnResolvedQuery>(&*session, "isbn_query_cache", q) {
+    if let Ok(res) = documents::read::<IsbnResolvedQuery>(&session, "isbn_query_cache", q) {
         return HttpResponse::Ok().json(json!({ "ok": true, "cached": true, "result": res }));
     }
 
@@ -280,7 +282,7 @@ async fn search(query: web::Query<IsbnSearchQuery>, data: web::Data<AppState>) -
     // write this resolution to the cache collection
 
     if let Err(err) = documents::write(
-        &*session,
+        &session,
         "isbn_query_cache",
         Some(q),
         &resolution,

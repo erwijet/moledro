@@ -1,14 +1,13 @@
 #![deny(warnings)]
 
 use actix_web::{web, App, HttpServer};
-use firestore_db_and_auth::ServiceSession;
+use firestore_db_and_auth::Credentials;
 
 mod hello;
 mod isbn;
 
 struct AppState {
-    /// the firebase service session
-    session: ServiceSession,
+    credentials: Credentials
 }
 
 #[actix_web::main]
@@ -16,7 +15,7 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         // setup firestore session
 
-        let cred = firestore_db_and_auth::Credentials::from_file(
+        let credentials = firestore_db_and_auth::Credentials::from_file(
             &*std::env::var("FIREBASE_CRED").expect("read environment variable 'FIREBASE_CRED'"),
         )
         .unwrap();
@@ -24,9 +23,7 @@ async fn main() -> std::io::Result<()> {
         // setup server
 
         App::new()
-            .app_data(web::Data::new(AppState {
-                session: ServiceSession::new(cred).expect("create a service account session"),
-            }))
+            .app_data(web::Data::new(AppState { credentials }))
             .service(hello::hello)
             .service(isbn::search)
     })
