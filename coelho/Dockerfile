@@ -1,4 +1,4 @@
-FROM rust:bullseye as deps-builder
+FROM rust:1.70-bullseye as deps-builder
 
 RUN cd /tmp && cargo new coelho
 COPY Cargo.toml /tmp/coelho
